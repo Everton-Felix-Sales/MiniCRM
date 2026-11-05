@@ -1,0 +1,38 @@
+﻿@model MiniCRM.Models.Cliente
+@{
+    ViewData["Title"] = "Editar Cliente";
+}
+
+<div class="w3-container w3-card-4 w3-white w3-margin w3-round-large w3-display-middle" style="width: 90%; max-width: 500px;">
+    <h2 class="w3-text-blue w3-center" style="font-weight: bold; margin-top: 20px;">
+        <i class="fa fa-user-circle"></i> Editar Cliente
+    </h2>
+    <p class="w3-center w3-text-grey">Atualize as informações do contato abaixo.</p>
+    <hr>
+
+    <form asp-controller="Cliente" asp-action="Edit" method="post" class="w3-container w3-padding-16">
+        <input type="hidden" asp-for="Id" />
+
+        <label style="font-weight: bold;" class="w3-text-dark-grey">Nome Completo</label>
+        <input asp-for="Nome" class="w3-input w3-border w3-round w3-margin-bottom" type="text" placeholder="Ex: Maria Silva" required>
+
+        <label style="font-weight: bold;" class="w3-text-dark-grey">E-mail de Contato</label>
+        <input asp-for="Email" class="w3-input w3-border w3-round w3-margin-bottom" type="email" placeholder="maria@email.com" required>
+
+        <label style="font-weight: bold;" class="w3-text-dark-grey">WhatsApp / Telefone</label>
+        <input asp-for="Telefone" class="w3-input w3-border w3-round w3-margin-bottom" type="text" placeholder="(11) 99999-0000">
+
+        <label style="font-weight: bold;" class="w3-text-dark-grey">CPF / CNPJ</label>
+        <input asp-for="Documento" class="w3-input w3-border w3-round w3-margin-bottom" type="text" placeholder="999.999.999-99">
+
+        <div class="w3-margin-bottom w3-margin-top w3-light-grey w3-padding w3-round w3-border">
+            <input asp-for="Ativo" class="w3-check" type="checkbox">
+            <label style="font-weight: bold; margin-left: 8px;" class="w3-text-dark-grey">Cliente Ativo no Sistema</label>
+        </div>
+
+        <button type="submit" class="w3-button w3-block w3-blue w3-round w3-margin-top w3-padding-large" style="font-weight: bold;">
+            <i class="fa fa-save"></i> Salvar Alterações
+        </button>
+        <a asp-controller="Cliente" asp-action="Index" class="w3-button w3-block w3-light-grey w3-border w3-round w3-margin-top w3-center">Cancelar</a>
+    </form>
+</div>

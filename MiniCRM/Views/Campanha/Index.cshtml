@@ -1,0 +1,174 @@
+﻿@model IEnumerable<MiniCRM.Models.Campanha>
+@{
+    ViewData["Title"] = "Lista de Campanhas";
+}
+
+<div class="w3-container w3-white w3-card-4 w3-round-large w3-margin" style="max-width: 1150px; margin: 40px auto !important;">
+    <div class="w3-row">
+        <div class="w3-col s8">
+            <h2 class="w3-text-teal" style="font-weight: bold;"><i class="fa fa-bullhorn"></i> Histórico de Campanhas</h2>
+            <p class="w3-text-grey">Acompanhe as ações promocionais e disparos de conteúdo realizados.</p>
+        </div>
+        <div class="w3-col s4 w3-right-align w3-margin-top">
+            <button onclick="document.getElementById('modalFiltroCampanha').style.display='block'" class="w3-button w3-teal w3-round-large">
+                <i class="fa fa-filter"></i> Filtrar
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de Filtro -->
+    <div id="modalFiltroCampanha" class="w3-modal">
+        <div class="w3-modal-content w3-animate-top w3-card-4 w3-round-large" style="max-width:600px">
+            <header class="w3-container w3-teal w3-round-top">
+                <span onclick="document.getElementById('modalFiltroCampanha').style.display='none'" class="w3-button w3-display-topright w3-round-top w3-hover-red">&times;</span>
+                <h4 style="font-weight: bold;"><i class="fa fa-search"></i> Filtrar Campanhas</h4>
+            </header>
+            <form asp-action="Index" method="get" class="w3-container w3-padding-16">
+                <label style="font-weight: bold;">Nome do Cliente</label>
+                <input type="text" name="nomeCliente" value="@ViewBag.NomeCliente" class="w3-input w3-border w3-round w3-margin-bottom" placeholder="Digite o nome do cliente...">
+
+                <div class="w3-row-padding" style="margin: 0 -16px;">
+                    <div class="w3-half">
+                        <label style="font-weight: bold;">Data Início (A partir de)</label>
+                        <input type="date" name="dataInicio" value="@ViewBag.DataInicio" class="w3-input w3-border w3-round w3-margin-bottom">
+                    </div>
+                    <div class="w3-half">
+                        <label style="font-weight: bold;">Data Fim (Até)</label>
+                        <input type="date" name="dataFim" value="@ViewBag.DataFim" class="w3-input w3-border w3-round w3-margin-bottom">
+                    </div>
+                </div>
+
+                <div class="w3-row-padding" style="margin: 0 -16px;">
+                    <div class="w3-half">
+                        <label style="font-weight: bold;">Orçamento Min (R$)</label>
+                        <input type="number"
+                               step="0.01"
+                               name="valorMin"
+                               value="@(ViewBag.ValorMin != null ? Convert.ToDecimal(ViewBag.ValorMin).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) : "")"
+                               class="w3-input w3-border w3-round w3-margin-bottom"
+                               placeholder="0.00">
+                    </div>
+                    <div class="w3-half">
+                        <label style="font-weight: bold;">Orçamento Max (R$)</label>
+                        <input type="number"
+                               step="0.01"
+                               name="valorMax"
+                               value="@(ViewBag.ValorMax != null ? Convert.ToDecimal(ViewBag.ValorMax).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture) : "")"
+                               class="w3-input w3-border w3-round w3-margin-bottom"
+                               placeholder="0.00">
+                    </div>
+                </div>
+                
+                <div class="w3-right w3-margin-top">
+                    <a asp-action="Index" class="w3-button w3-light-grey w3-round w3-margin-right">Limpar Filtros</a>
+                    <button type="submit" class="w3-button w3-teal w3-round"><i class="fa fa-check"></i> Pesquisar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabela Ajustada -->
+    <div class="w3-responsive w3-margin-top">
+        <table class="w3-table-all w3-hoverable w3-margin-bottom" style="vertical-align: middle;">
+            <thead>
+                <tr class="w3-teal">
+                    <th>Campanha / Ação</th>
+                    <th>Cliente Associado</th>
+                    <th>Orçamento</th>
+                    <th>Início</th>
+                    <th>Fim</th>
+                    <th>Status</th>
+                    <th>Fase</th>
+                    <th class="w3-center" style="min-width: 210px;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var campanha in Model)
+                    {
+                        <tr>
+                            <td style="font-weight: 500;">@campanha.Nome</td>
+                            <td>@(campanha.Cliente != null ? campanha.Cliente.Nome : "Sem Cliente")</td>
+                            <td style="white-space: nowrap;">@campanha.Orcamento.ToString("C")</td>
+                            <td style="white-space: nowrap;">@campanha.DataInicio.ToShortDateString()</td>
+                            <td style="white-space: nowrap;">@campanha.DataFim.ToShortDateString()</td>
+                            <td>
+                                @if (campanha.Ativo)
+                                {
+                                    <span class="w3-tag w3-round w3-green" style="white-space: nowrap;">Ativa</span>
+                                }
+                                else
+                                {
+                                    <span class="w3-tag w3-round w3-red" style="white-space: nowrap;">Inativa</span>
+                                }
+                            </td>
+                            <td>
+                                @if (campanha.Status == "Concluída")
+                                {
+                                    <span class="w3-tag w3-round w3-green" style="white-space: nowrap;">Concluída</span>
+                                }
+                                else if (campanha.Status == "Em Andamento")
+                                {
+                                    <span class="w3-tag w3-round w3-blue" style="white-space: nowrap;">Em Andamento</span>
+                                }
+                                else
+                                {
+                                    <span class="w3-tag w3-round w3-amber" style="white-space: nowrap;">@(campanha.Status ?? "Planejada")</span>
+                                }
+                            </td>
+                            <td class="w3-center" style="white-space: nowrap;">
+                                <a asp-controller="Campanha" asp-action="Details" asp-route-id="@campanha.Id" class="w3-button w3-tiny w3-blue w3-round" title="Detalhes">
+                                    <i class="fa fa-info-circle"></i> Detalhes
+                                </a>
+
+                                <a asp-controller="Campanha" asp-action="Edit" asp-route-id="@campanha.Id" class="w3-button w3-tiny w3-dark-grey w3-round" title="Editar">
+                                    <i class="fa fa-edit"></i> Editar
+                                </a>
+
+                                <form asp-controller="Campanha" asp-action="AlternarStatus" asp-route-id="@campanha.Id" method="post" style="display:inline;">
+                                    @if (campanha.Ativo)
+                                    {
+                                        <button type="submit" class="w3-button w3-tiny w3-red w3-round" title="Desativar">
+                                            <i class="fa fa-ban"></i> Desativar
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="w3-button w3-tiny w3-green w3-round" title="Ativar">
+                                            <i class="fa fa-check"></i> Ativar
+                                        </button>
+                                    }
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="w3-center w3-padding-24">Nenhuma campanha encontrada.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginação -->
+    @if (ViewBag.TotalPages > 1)
+    {
+        <div class="w3-bar w3-center w3-padding-16">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <a href="@Url.Action("Index", new { page = i, nomeCliente = ViewBag.NomeCliente, dataInicio = ViewBag.DataInicio, dataFim = ViewBag.DataFim, valorMin = ViewBag.ValorMin, valorMax = ViewBag.ValorMax })"
+                   class="w3-button w3-round w3-border w3-margin-right @(i == ViewBag.CurrentPage ? "w3-teal" : "w3-light-grey")">
+                    @i
+                </a>
+            }
+        </div>
+    }
+
+    <div class="w3-padding-16">
+        <a asp-controller="Home" asp-action="Index" class="w3-button w3-light-grey w3-round w3-border" style="text-decoration: none;">Voltar ao Painel</a>
+    </div>
+</div>

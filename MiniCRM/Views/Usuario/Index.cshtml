@@ -1,0 +1,67 @@
+﻿@model IEnumerable<MiniCRM.Models.Usuario>
+@{
+    ViewData["Title"] = "Usuários";
+}
+
+<div class="w3-container w3-white w3-card-4 w3-round-large w3-margin" style="max-width: 1000px; margin: 40px auto !important;">
+    <h2 class="w3-text-blue" style="font-weight: bold;"><i class="fa fa-users"></i> Gerenciar Usuários</h2>
+    <p class="w3-text-grey">Controle de acesso da equipe ao CRM.</p>
+    
+    <div class="w3-margin-bottom">
+        <a asp-action="Cadastrar" class="w3-button w3-blue w3-round"><i class="fa fa-plus"></i> Novo Usuário</a>
+    </div>
+
+
+    <div class="w3-responsive w3-margin-top">
+        <table class="w3-table-all w3-hoverable w3-margin-bottom">
+            <thead>
+                <tr class="w3-blue">
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Perfil</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var usuario in Model)
+                    {
+                        <tr>
+                            <td>@usuario.Nome</td>
+                            <td>@usuario.Email</td>
+                            <td>@usuario.Perfil</td>
+                            <td>
+                                @if (usuario.Ativo)
+                                {
+                                    <span class="w3-tag w3-round w3-green">Ativo</span>
+                                }
+                                else
+                                {
+                                    <span class="w3-tag w3-round w3-red">Inativo</span>
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="Editar" asp-route-id="@usuario.Id" class="w3-button w3-small w3-amber w3-round"><i class="fa fa-pencil"></i></a>
+                                <form asp-action="Excluir" asp-route-id="@usuario.Id" method="post" style="display:inline;">
+                                    <button type="submit" class="w3-button w3-small w3-red w3-round" onclick="return confirm('Tem certeza que deseja excluir este usuário?');"><i class="fa fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="w3-center">Nenhum usuário cadastrado.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="w3-padding-16">
+        <a asp-controller="Home" asp-action="Index" class="w3-button w3-light-grey w3-round w3-border">Voltar ao Painel</a>
+    </div>
+</div>

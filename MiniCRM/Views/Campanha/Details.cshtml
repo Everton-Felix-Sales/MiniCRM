@@ -1,0 +1,72 @@
+﻿@model MiniCRM.Models.Campanha
+@{
+    ViewData["Title"] = "Detalhes da Campanha";
+}
+
+<div class="w3-container w3-card-4 w3-white w3-margin w3-round-large w3-display-middle" style="width: 90%; max-width: 600px;">
+    <h2 class="w3-text-teal w3-center" style="font-weight: bold; margin-top: 20px;">
+        <i class="fa fa-bullhorn"></i> @Model.Nome
+    </h2>
+    <hr>
+
+    <div class="w3-row-padding w3-margin-bottom">
+        <div class="w3-half">
+            <p><strong>Cliente:</strong> @(Model.Cliente != null ? Model.Cliente.Nome : "N/A")</p>
+            <p><strong>Orçamento:</strong> @Model.Orcamento.ToString("C")</p>
+            <p><strong>Status Atual:</strong> <span class="w3-tag w3-round w3-small w3-teal">@Model.Status</span></p>
+        </div>
+        <div class="w3-half">
+            <p><strong>Data de Início:</strong> @Model.DataInicio.ToShortDateString()</p>
+            <p><strong>Data de Fim:</strong> @Model.DataFim.ToShortDateString()</p>
+        </div>
+    </div>
+
+    <div class="w3-container w3-light-grey w3-padding w3-round w3-margin-bottom w3-center">
+        <label style="font-weight: bold; display: block; margin-bottom: 15px;">Progresso da Campanha</label>
+        
+        <form asp-controller="Campanha" asp-action="AtualizarStatus" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+            
+            <div class="w3-bar">
+                <!-- Botão Em Andamento -->
+                @if (Model.Status == "Planejada")
+                {
+                    <button type="submit" name="novoStatus" value="Em Andamento" class="w3-button w3-blue w3-round w3-margin-right">
+                        <i class="fa fa-play"></i> Iniciar (Em Andamento)
+                    </button>
+                }
+                else
+                {
+                    <button type="button" class="w3-button w3-grey w3-round w3-margin-right" disabled style="opacity: 0.6; cursor: not-allowed;">
+                        <i class="fa fa-play"></i> Iniciar (Em Andamento)
+                    </button>
+                }
+
+                <!-- Botão Concluída -->
+                @if (Model.Status == "Em Andamento")
+                {
+                    <button type="submit" name="novoStatus" value="Concluída" class="w3-button w3-green w3-round">
+                        <i class="fa fa-check"></i> Concluir Campanha
+                    </button>
+                }
+                else
+                {
+                    <button type="button" class="w3-button w3-grey w3-round" disabled style="opacity: 0.6; cursor: not-allowed;">
+                        <i class="fa fa-check"></i> Concluir Campanha
+                    </button>
+                }
+            </div>
+
+            @if (Model.Status == "Concluída")
+            {
+                <div class="w3-margin-top w3-text-green" style="font-weight: bold;">
+                    <i class="fa fa-check-circle"></i> Campanha finalizada. Não há ações pendentes.
+                </div>
+            }
+        </form>
+    </div>
+
+    <div class="w3-padding-16 w3-center">
+        <a asp-action="Index" class="w3-button w3-light-grey w3-border w3-round">Voltar para a Lista</a>
+    </div>
+</div>

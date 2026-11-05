@@ -1,0 +1,123 @@
+﻿@model IEnumerable<MiniCRM.Models.Cliente>
+@{
+    ViewData["Title"] = "Lista de Clientes";
+}
+
+<div class="w3-container w3-white w3-card-4 w3-round-large w3-margin" style="max-width: 1000px; margin: 40px auto !important;">
+    <div class="w3-row">
+        <div class="w3-col s8">
+            <h2 class="w3-text-blue" style="font-weight: bold;"><i class="fa fa-users"></i> Clientes Cadastrados</h2>
+            <p class="w3-text-grey">Veja abaixo todos os clientes capturados.</p>
+        </div>
+        <div class="w3-col s4 w3-right-align w3-margin-top">
+            <!-- Botão que abre o modal -->
+            <button onclick="document.getElementById('modalFiltroCliente').style.display='block'" class="w3-button w3-blue w3-round-large">
+                <i class="fa fa-filter"></i> Filtrar
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de Filtro -->
+    <div id="modalFiltroCliente" class="w3-modal">
+        <div class="w3-modal-content w3-animate-top w3-card-4 w3-round-large" style="max-width:500px">
+            <header class="w3-container w3-blue w3-round-top">
+                <span onclick="document.getElementById('modalFiltroCliente').style.display='none'"
+                      class="w3-button w3-display-topright w3-round-top w3-hover-red">&times;</span>
+                <h4 style="font-weight: bold;"><i class="fa fa-search"></i> Filtrar Clientes</h4>
+            </header>
+            <form asp-action="Index" method="get" class="w3-container w3-padding-16">
+                <label style="font-weight: bold;">Nome do Cliente</label>
+                <!-- Mantém o valor pesquisado anteriormente -->
+                <input type="text" name="nome" value="@ViewBag.NomeFiltro" class="w3-input w3-border w3-round w3-margin-bottom" placeholder="Digite parte do nome...">
+                
+                <div class="w3-right w3-margin-top">
+                    <a asp-action="Index" class="w3-button w3-light-grey w3-round w3-margin-right">Limpar</a>
+                    <button type="submit" class="w3-button w3-blue w3-round"><i class="fa fa-check"></i> Pesquisar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="w3-responsive w3-margin-top">
+        <table class="w3-table-all w3-hoverable w3-margin-bottom">
+            <thead>
+                <tr class="w3-blue">
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th>Status</th>
+                    <th>Origem (Campanha)</th>
+                    <th class="w3-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var cliente in Model)
+                    {
+                        <tr>
+                            <td>@cliente.Nome</td>
+                            <td>@cliente.Email</td>
+                            <td>@cliente.Telefone</td>
+                            <td>
+                                @if (cliente.Ativo)
+                                {
+                                    <span class="w3-tag w3-round w3-green">Ativo</span>
+                                }
+                                else
+                                {
+                                    <span class="w3-tag w3-round w3-red">Inativo</span>
+                                }
+                            </td>
+                            <td>@(cliente.Campanhas != null && cliente.Campanhas.Any() ? cliente.Campanhas.First().Nome : "Sem Campanha")</td>
+                            <td class="w3-center" style="white-space: nowrap;">
+                                <!-- Botão Editar -->
+                                <a asp-controller="Cliente" asp-action="Edit" asp-route-id="@cliente.Id" class="w3-button w3-small w3-blue w3-round" title="Editar">
+                                    <i class="fa fa-edit"></i> Editar
+                                </a>
+
+                                <!-- Formulário para Ativar / Desativar -->
+                                <form asp-controller="Cliente" asp-action="AlternarStatus" asp-route-id="@cliente.Id" method="post" style="display:inline;">
+                                    @if (cliente.Ativo)
+                                    {
+                                        <button type="submit" class="w3-button w3-small w3-red w3-round" title="Desativar Cliente e suas Campanhas">
+                                            <i class="fa fa-ban"></i> Desativar
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="w3-button w3-small w3-green w3-round" title="Ativar Cliente">
+                                            <i class="fa fa-check"></i> Ativar
+                                        </button>
+                                    }
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="6" class="w3-center">Nenhum cliente cadastrado.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- PAGINAÇÃO -->
+    @if (ViewBag.TotalPages > 1)
+    {
+        <div class="w3-bar w3-center w3-padding-16">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <a href="@Url.Action("Index", new { page = i, nome = ViewBag.NomeFiltro })"
+                   class="w3-button w3-round w3-border w3-margin-right @(i == ViewBag.CurrentPage ? "w3-blue" : "w3-light-grey")">
+                    @i
+                </a>
+            }
+        </div>
+    }
+
+    <div class="w3-padding-16">
+        <a asp-controller="Home" asp-action="Index" class="w3-button w3-light-grey w3-round w3-border">Voltar ao Painel</a>
+    </div>
+</div>

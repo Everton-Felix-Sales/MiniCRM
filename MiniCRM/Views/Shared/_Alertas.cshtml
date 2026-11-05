@@ -1,0 +1,16 @@
+﻿@* Checa tanto TempData (usado após RedirectToAction) quanto ViewBag (usado em retornos de View diretos) *@
+@if (TempData["Sucesso"] != null || ViewBag.Sucesso != null)
+{
+    <div class="w3-panel w3-green w3-round w3-display-container w3-animate-opacity w3-margin-top w3-card-2">
+        <span onclick="this.parentElement.style.display='none'" class="w3-button w3-display-topright w3-round w3-hover-green">&times;</span>
+        <p style="padding-right: 25px;"><i class="fa fa-check-circle"></i> @(TempData["Sucesso"] ?? ViewBag.Sucesso)</p>
+    </div>
+}
+
+@if (TempData["Erro"] != null || ViewBag.Erro != null)
+{
+    <div class="w3-panel w3-red w3-round w3-display-container w3-animate-opacity w3-margin-top w3-card-2">
+        <span onclick="this.parentElement.style.display='none'" class="w3-button w3-display-topright w3-round w3-hover-red">&times;</span>
+        <p style="padding-right: 25px;"><i class="fa fa-exclamation-triangle"></i> @(TempData["Erro"] ?? ViewBag.Erro)</p>
+    </div>
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Cadastrar Cliente</title>
+</head>
+
+<body class="w3-light-grey">
+
+    <div class="w3-container w3-card-4 w3-white w3-margin w3-round-large w3-display-middle" style="width: 90%; max-width: 500px;">
+        <h2 class="w3-text-blue w3-center" style="font-weight: bold; margin-top: 20px;">👤 Novo Cliente</h2>
+            <p class="w3-center w3-text-grey">Preencha os dados do novo contato.</p>
+
+        <form class="w3-container w3-padding-16" onsubmit="alert('Cliente cadastrado com sucesso! (Simulação Front-End)');">
+            <label style="font-weight: bold;">Nome Completo</label>
+            <input class="w3-input w3-border w3-round w3-margin-bottom" type="text" placeholder="Ex: Maria Silva" required>
+
+            <label style="font-weight: bold;">E-mail de Contato</label>
+            <input class="w3-input w3-border w3-round w3-margin-bottom" type="email" placeholder="maria@email.com" required>
+
+            <label style="font-weight: bold;">WhatsApp / Telefone</label>
+            <input class="w3-input w3-border w3-round w3-margin-bottom" type="text" placeholder="(11) 99999-0000">
+
+            <label style="font-weight: bold;">Classificação (Estágio do Funil)</label>
+            
+            <select class="w3-select w3-border w3-round w3-margin-bottom">
+                <option value="Lead">Lead (Interessado no Instagram)</option>
+                <option value="Ativo">Cliente Ativo (Já comprou)</option>
+                <option value="Inativo">Inativo (Perdeu o contato)</option>
+            </select>
+
+            <button type="submit" class="w3-button w3-block w3-blue w3-round w3-margin-top w3-padding-large">Salvar Cliente</button>
+            <a href="principal.html" class="w3-button w3-block w3-light-grey w3-round w3-margin-top w3-center">Voltar ao Painel</a>
+        </form>
+    </div>
+
+</body>
+</html>

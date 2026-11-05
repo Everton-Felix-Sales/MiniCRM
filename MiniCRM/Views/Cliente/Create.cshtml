@@ -1,0 +1,28 @@
+﻿@model MiniCRM.Models.Cliente
+@{
+    ViewData["Title"] = "Cadastrar Cliente";
+}
+
+<div class="w3-container w3-card-4 w3-white w3-margin w3-round-large w3-display-middle" style="width: 90%; max-width: 500px;">
+    <h2 class="w3-text-blue w3-center" style="font-weight: bold; margin-top: 20px;">👤 Novo Cliente</h2>
+    <p class="w3-center w3-text-grey">Preencha os dados do novo contato.</p>
+
+    <form asp-controller="Cliente" asp-action="Create" method="post" class="w3-container w3-padding-16">
+        
+        <label style="font-weight: bold;">Nome Completo</label>
+        <input asp-for="Nome" class="w3-input w3-border w3-round w3-margin-bottom" type="text" placeholder="Ex: Maria Silva" required>
+
+        <label style="font-weight: bold;">E-mail de Contato</label>
+        <input asp-for="Email" class="w3-input w3-border w3-round w3-margin-bottom" type="email" placeholder="maria@email.com" required>
+
+        <label style="font-weight: bold;">WhatsApp / Telefone</label>
+        <input asp-for="Telefone" class="w3-input w3-border w3-round w3-margin-bottom" type="text" placeholder="(11) 99999-0000">
+
+        <label style="font-weight: bold;">CPF / CNPJ</label>
+        <input asp-for="Documento" class="w3-input w3-border w3-round w3-margin-bottom" type="text" placeholder="999-999-999-99">
+
+
+        <button type="submit" class="w3-button w3-block w3-blue w3-round w3-margin-top w3-padding-large">Salvar Cliente</button>
+        <a asp-controller="Home" asp-action="Index" class="w3-button w3-block w3-light-grey w3-round w3-margin-top w3-center">Voltar ao Painel</a>
+    </form>
+</div>

@@ -1,0 +1,39 @@
+﻿@model MiniCRM.Models.Usuario
+@{
+    ViewData["Title"] = "Cadastrar Usuário";
+}
+
+<div class="w3-container w3-card-4 w3-white w3-margin w3-round-large w3-display-middle" style="width: 90%; max-width: 500px;">
+    <h2 class="w3-text-blue w3-center" style="font-weight: bold; margin-top: 20px;">
+        <i class="fa fa-user-plus"></i> Novo Usuário
+    </h2>
+    <hr>
+    
+    <form asp-action="Create" method="post" class="w3-container w3-padding-16">
+        
+        <label style="font-weight: bold;" class="w3-text-dark-grey">Nome Completo</label>
+        <input asp-for="Nome" class="w3-input w3-border w3-round w3-margin-bottom" type="text" placeholder="Ex: João da Silva" required>
+
+        <label style="font-weight: bold;" class="w3-text-dark-grey">E-mail Corporativo</label>
+        <input asp-for="Email" class="w3-input w3-border w3-round w3-margin-bottom" type="email" placeholder="usuario@empresa.com.br" required>
+
+        <label style="font-weight: bold;" class="w3-text-dark-grey">Telefone / WhatsApp</label>
+        <input asp-for="Telefone" class="w3-input w3-border w3-round w3-margin-bottom" type="text" placeholder="(DD) 9XXXX-XXXX" required>
+
+        <label style="font-weight: bold;" class="w3-text-dark-grey">Senha de Acesso</label>
+        <input asp-for="Senha" class="w3-input w3-border w3-round w3-margin-bottom" type="password" placeholder="Defina uma senha" required>
+
+        <label style="font-weight: bold;" class="w3-text-dark-grey">Perfil de Acesso</label>
+        <select asp-for="Perfil" class="w3-select w3-border w3-round w3-margin-bottom" required>
+            <option value="" disabled selected>Selecione um nível de acesso...</option>
+            <option value="Admin">Administrador</option>
+            <option value="Vendedor">Vendedor</option>
+            <option value="Atendimento">Atendimento</option>
+        </select>
+
+        <button type="submit" class="w3-button w3-block w3-blue w3-round w3-margin-top w3-padding-large" style="font-weight: bold;">
+            <i class="fa fa-save"></i> Salvar Registro
+        </button>
+        <a asp-action="Index" class="w3-button w3-block w3-light-grey w3-border w3-round w3-margin-top w3-center">Cancelar</a>
+    </form>
+</div>

@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MiniCRM</title>
+    
+    <!-- Bibliotecas do seu Template -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- Arquivos padrão do ASP.NET -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MiniCRM.styles.css" asp-append-version="true" />
+
+    <style>
+        /* Fundo moderno com gradiente suave em tons de azul e cinza */
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra Superior de Navegação -->
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <div class="w3-bar w3-white w3-card-2 w3-padding-small">
+            <span class="w3-bar-item w3-text-blue" style="font-weight: bold; font-size: 1.1em; line-height: 28px;">
+                <i class="fa fa-rocket"></i> CRM Marketing Hub
+            </span>
+            
+            <!-- Dropdown do Perfil do Usuário -->
+            <div class="w3-dropdown-hover w3-right">
+                <button class="w3-button w3-white w3-hover-light-grey w3-round" style="padding: 6px 12px;">
+                    <i class="fa fa-user-circle w3-large w3-text-blue" style="vertical-align: middle;"></i>
+                    <span style="margin-left: 6px;">Olá, <strong>@User.Identity.Name</strong></span>
+                    <i class="fa fa-caret-down w3-margin-left"></i>
+                </button>
+                
+                <div class="w3-dropdown-content w3-bar-block w3-card-4 w3-round-large" style="right: 0; min-width: 220px; z-index: 1000;">
+                    <!-- Cabeçalho com dados resumidos -->
+                    <div class="w3-container w3-padding w3-light-grey w3-border-bottom" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
+                        <span class="w3-tiny w3-text-grey" style="text-transform: uppercase; font-weight: bold;">Sessão Ativa</span>
+                        <div class="w3-medium" style="font-weight: bold; color: #333; word-break: break-all;">
+                            @User.Identity.Name
+                        </div>
+                        @if (User.FindFirst(System.Security.Claims.ClaimTypes.Role) != null)
+                        {
+                            <span class="w3-tag w3-round w3-blue w3-tiny w3-margin-top">
+                                @User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value
+                            </span>
+                        }
+                    </div>
+
+                    <!-- Botão de Editar Perfil -->
+                    <a asp-controller="Usuario"
+                       asp-action="Edit"
+                       asp-route-id="@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value"
+                       class="w3-bar-item w3-button w3-hover-blue"
+                       style="text-decoration: none;">
+                        <i class="fa fa-id-card-o w3-margin-right w3-text-blue"></i> Editar Perfil
+                    </a>
+
+                    <hr style="margin: 0;">
+
+                    <!-- Botão de Sair -->
+                    <a asp-controller="Login"
+                       asp-action="Logout"
+                       class="w3-bar-item w3-button w3-text-red w3-hover-red"
+                       style="text-decoration: none; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
+                        <i class="fa fa-sign-out w3-margin-right"></i> Sair
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+    @await Html.PartialAsync("_Alertas")
+
+    <div>
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

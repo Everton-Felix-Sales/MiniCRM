@@ -1,0 +1,76 @@
+﻿@model MiniCRM.Models.Campanha
+@{
+    ViewData["Title"] = "Editar Campanha";
+}
+
+<div class="w3-container w3-card-4 w3-white w3-round-large" style="max-width: 650px; margin: 40px auto !important;">
+    <h2 class="w3-text-teal w3-center" style="font-weight: bold; margin-top: 20px;">
+        <i class="fa fa-pencil-square-o"></i> Editar Campanha
+    </h2>
+    <p class="w3-center w3-text-grey">Atualize as diretrizes, datas e orçamentos da ação promocional.</p>
+    <hr>
+
+    <form asp-controller="Campanha" asp-action="Edit" method="post" class="w3-container w3-padding-16">
+        <input type="hidden" asp-for="Id" />
+
+        <!-- Linha 1: Título e Cliente -->
+        <div class="w3-row-padding" style="margin: 0 -16px;">
+            <div class="w3-half">
+                <label style="font-weight: bold;" class="w3-text-dark-grey">Título da Campanha</label>
+                <input asp-for="Nome" class="w3-input w3-border w3-round w3-margin-bottom" type="text" required>
+            </div>
+            <div class="w3-half">
+                <label style="font-weight: bold;" class="w3-text-dark-grey">Cliente Associado</label>
+                <select asp-for="ClienteId" asp-items="ViewBag.Clientes" class="w3-select w3-border w3-round w3-margin-bottom" required>
+                    <option value="">-- Selecione o Cliente --</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Linha 2: Orçamento (Com ajuste decimal) e Status -->
+        <div class="w3-row-padding" style="margin: 0 -16px;">
+            <div class="w3-half">
+                <label style="font-weight: bold;" class="w3-text-dark-grey">Orçamento (R$)</label>
+                <input asp-for="Orcamento"
+                       class="w3-input w3-border w3-round w3-margin-bottom"
+                       type="number"
+                       step="0.01"
+                       min="0.01"
+                       value="@Model.Orcamento.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)"
+                       required />
+            </div>
+            <div class="w3-half">
+                <label style="font-weight: bold;" class="w3-text-dark-grey">Status da Campanha</label>
+                <select asp-for="Status" class="w3-select w3-border w3-round w3-margin-bottom" required>
+                    <option value="Planejada">Planejada</option>
+                    <option value="Em Andamento">Em Andamento</option>
+                    <option value="Concluída">Concluída</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Linha 3: Datas -->
+        <div class="w3-row-padding" style="margin: 0 -16px;">
+            <div class="w3-half">
+                <label style="font-weight: bold;" class="w3-text-dark-grey">Data de Início</label>
+                <input asp-for="DataInicio" class="w3-input w3-border w3-round w3-margin-bottom" type="date" value="@Model.DataInicio.ToString("yyyy-MM-dd")" required>
+            </div>
+            <div class="w3-half">
+                <label style="font-weight: bold;" class="w3-text-dark-grey">Data de Fim</label>
+                <input asp-for="DataFim" class="w3-input w3-border w3-round w3-margin-bottom" type="date" value="@Model.DataFim.ToString("yyyy-MM-dd")" required>
+            </div>
+        </div>
+
+        <!-- Linha 4: Botões -->
+        <div class="w3-row-padding w3-margin-top" style="margin: 0 -16px;">
+            <div class="w3-half">
+                <button type="submit" class="w3-button w3-block w3-teal w3-round w3-padding-large" style="font-weight: bold;">
+                    <i class="fa fa-save"></i> Salvar Alterações
+                </button>
+            </div>
+            <div class="w3-half">
+                <a asp-controller="Campanha" asp-action="Index" class="w3-button w3-block w3-light-grey w3-border w3-round w3-padding-large w3-center" style="text-decoration: none;">Cancelar</a>
+            </div>
+        </div>
+    </form>
+</div>
