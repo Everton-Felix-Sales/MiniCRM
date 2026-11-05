@@ -5,7 +5,7 @@ Este projeto foi desenvolvido em **C# com ASP.NET Core MVC** e utiliza **Docker*
 - **ASP.NET Core MVC** → Backend e Frontend (W3.CSS)
 - **Entity Framework Core** → ORM para o banco de dados
 - **WAHA (WhatsApp HTTP API)** → Integração para disparos de WhatsApp
-- **MySQL / SQL Server** → Banco de dados principal
+- **MySQL** → Banco de dados principal
 - **Docker** → Gerenciamento dos containers de infraestrutura (WAHA e DB)
 
 ---
