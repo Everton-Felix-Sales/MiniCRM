@@ -73,7 +73,7 @@ Para gerenciar e visualizar os dados no banco de dados.
 
 Abra o terminal e execute:
 ```bash
-git clone URL_DO_SEU_REPOSITORIO
+git clone [https://github.com/Everton-Felix-Sales/MiniCRM]
 ```
 Entre na pasta do projeto:
 ```bash
